@@ -1,5 +1,5 @@
 async function  login(event){
-   
+    event.preventDefault();
     const name=event.target.name.value
     const emailid=event.target.emailid.value
     const password=event.target.password.value

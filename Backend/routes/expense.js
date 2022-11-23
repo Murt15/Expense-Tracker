@@ -1,21 +1,21 @@
 const express=require('express');
 
-const userController=require('../Controller/user')
+const expenseController=require('../Controller/expense')
 
 const router=express.Router();
 
-router.get('/user',userController.getAddExpense)
+router.get('/user',expenseController.getAddExpense)
 
-router.post('/user/add-expense',userController.postAddExpense)
+router.post('/user/add-expense',expenseController.postAddExpense)
 
-router.post('/user/delete-expense/:userid',userController.postDeleteExpense)
+router.post('/user/delete-expense/:userid',expenseController.postDeleteExpense)
 
-router.get('/user/edit-expense/:userid',userController.getEditExpense)
+router.get('/user/edit-expense/:userid',expenseController.getEditExpense)
 
 
 module.exports=router;
 
-// router.post('/user/delete-user/:userid',userController.postDeleteUser)
+// router.post('/user/delete-user/:userid',expenseController.postDeleteUser)
 
 
 
