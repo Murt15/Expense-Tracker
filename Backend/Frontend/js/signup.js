@@ -11,6 +11,8 @@ async function  signup(event){
         let res=await axios.post("http://localhost:8000/user/signup",signupObj);
         if(res.data.alreadyexisting==true){
             window.alert("User Already Registered");
+        }else{
+            window.alert("User Registered")
         }
     } catch (err) {
         console.log(err)
