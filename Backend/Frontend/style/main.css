@@ -1,0 +1,108 @@
+.heading {
+  text-align: left;
+  -ms-text-size-adjust: auto;
+
+}
+
+.list1 {
+  position: relative;
+  left: 20px;
+  width: 290px;
+  text-align: left;
+}
+.input2{
+  text-align: center;
+  width: 305px;
+  height: 25px;
+}
+.input1 {
+  text-align: center;
+  width: 300px;
+  height: 20px;
+}
+
+.bg {
+  /* The image used */
+  background-image: url("https://images.ctfassets.net/ifu905unnj2g/4nwoS9CUIgOO8W6eigiICE/de03057910bdce8c2d574094ccd882d2/Lightbulb_on_yellow_background-min.png");
+  
+  /* Full height */
+  height: 100%;
+  
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.btn {
+
+  background-color: #eb9c3c;
+  color: black;
+
+  border: black;
+  cursor: pointer;
+  width: 305px;
+  height: 30px;
+  margin-top: 15px;
+  text-align: center;
+  border-radius: 5px;
+
+}
+
+.btte {
+  background-color: rgb(70, 97, 251);
+  border-radius: 6px;
+  width: 40px;
+  float: right;
+  
+
+}
+
+.bttd {
+  background-color: rgb(248, 30, 73);
+  border-radius: 6px;
+  width: 60px;
+  float: right;
+  
+}
+
+.btn:hover {
+  opacity: 0.5;
+}
+
+.bttd:hover {
+  opacity: 0.5;
+}
+
+.btte:hover {
+  opacity: 0.5;
+}
+h1 {
+  text-align: center;
+
+}
+
+fieldset {
+  border-radius: 8px;
+  background-color: rgba(234, 229, 220, 0.9);
+  background-blend-mode: multiply;
+  padding-bottom: 50px;
+  border: 1px solid rgb(11, 11, 10);
+  font-size: 14px;
+  padding: 5px;
+  line-height: 1.8;
+  margin: 0 auto;
+  text-align: center;
+  width: 400px;
+  height: auto;
+  align-items: center;
+  
+}
+
+body,
+html {
+  height: 100%;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
