@@ -13,16 +13,18 @@
 
 
     <body class="body"><br><br><br><br><br><br><br><br>
-        <h1>Login</h1>
+        <h1>Sign Up</h1>
         <div>
             <fieldset>
 
-                <form onsubmit="login(event)" action="/user/login" method="POST">
+                <form onsubmit="signup(event)" action="/user/login" method="POST">
+                    <label for="name">Enter Your Name</label><br>
+                    <input type="text" class="input1" name="name" required><br>
                     <label for="email">Enter  Your Email</label><br>
                     <input type="email" class="input1"  name="emailid" required><br>
                     <label for="password">Password</label><br>
                     <input type="password" name="password" class="input1" required><br>
-                    <a href="signup.html">Not an Existing User? Sign Up</a>
+                    <a href="login.html">Already Registered ?Click here to Sign in </a>
                     <button class="btn"> Sign Up </button>
                 </form>
                 
