@@ -31,9 +31,9 @@ async function login(event){
 
     try {
         let res=await axios.post("http://localhost:8000/user/login",loginObj);
-        console.log(res.data)
+        // console.log(res.data)
         if (res.data.success==true){
-            window.alert("User Logged In Successfully")
+            location.href='../views/index.html'
         }else if(res.data.password=="incorrect"){
             window.alert("Password is Incorrect")
 

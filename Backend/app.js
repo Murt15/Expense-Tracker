@@ -11,8 +11,8 @@ const expenseRoutes=require('./routes/expense')
 
 app.use(bodyParser.json({ extended: false }));
 app.use(cors())
-app.use(expenseRoutes);
-app.use(userRoutes);
+app.use('/expense',expenseRoutes);
+app.use('/user',userRoutes);
 
 
 sequelize.sync().then((result) => {

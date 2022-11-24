@@ -29,7 +29,8 @@ exports.postAddExpense=((req,res,next)=>{
 
 exports.postDeleteExpense=((req,res,next)=>{
     // console.log(req.params)
-    const ExpenseId = req.params.Expenseid;
+    const ExpenseId = req.params.userid;
+    //console.log(ExpenseId);
     Expense.findByPk(ExpenseId)
     .then(val => {
       return val.destroy();
@@ -43,7 +44,7 @@ exports.postDeleteExpense=((req,res,next)=>{
 })
 
 exports.getEditExpense=((req,res,next)=>{
-    const ExpenseId = req.params.Expenseid;
+    const ExpenseId = req.params.userid;
     Expense.findByPk(ExpenseId)
     .then((val)=>{
         res.json(val)

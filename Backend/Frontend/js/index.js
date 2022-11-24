@@ -12,7 +12,7 @@ async function saveToBackend(event) {
     }
 
     try {
-        let response = await axios.post("http://localhost:8000/user/add-expense", obj);
+        let response = await axios.post("http://localhost:8000/expense/add-expense", obj);
         showNewReponseOnScreen(response.data);
 
     } catch (error) {
@@ -39,9 +39,10 @@ function showNewReponseOnScreen(response) {
 
 function editUser(responseId) {
 
-    const url = 'http://localhost:8000/user/edit-expense/' + responseId;
+    const url = 'http://localhost:8000/expense/edit-expense/' + responseId;
     axios.get(url)
         .then((res) => {
+            // console.log(res);
             document.getElementById('amt').value = res.data.expenseAmount;
             document.getElementById('des').value = res.data.description;
             document.getElementById("cat").value = res.data.category;
@@ -56,8 +57,9 @@ function editUser(responseId) {
 
 async function deleteUser(responseId) {
     try {
-
-        const url = 'http://localhost:8000/user/delete-expense/' + responseId;
+        // 
+        console.log(responseId)
+        const url = 'http://localhost:8000/expense/delete-expense/' + responseId;
         await axios.post(url);
         removeUserFromScreen(responseId);
 
@@ -79,7 +81,7 @@ function removeUserFromScreen(responseId) {
 }
 
 window.addEventListener('DOMContentLoaded', () => {
-    axios.get("http://localhost:8000/user")
+    axios.get("http://localhost:8000/expense")
         .then((response) => {
             for (var i = 0; i < response.data.length; i++) {
                 showNewReponseOnScreen(response.data[i])
