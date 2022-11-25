@@ -11,7 +11,6 @@ function generateAccessToken(id){
     return jwt.sign({userId:id},'secretKey')
 }
 
-
 exports.postAddUser = async (req,res,next)=>{
     // console.log(req.body);
     const name=req.body.name;

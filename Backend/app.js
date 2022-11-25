@@ -6,11 +6,10 @@ const sequelize=require('./utils/database');
 const app=express();
 
 const User=require('./Models/user');
-
 const Expenses=require('./Models/expense');
+const Order=require('./Models/order')
 
-
-
+const purchaseRoutes=require('./routes/purchase')
 const userRoutes=require('./routes/user');
 const expenseRoutes=require('./routes/expense')
 
@@ -19,11 +18,14 @@ const expenseRoutes=require('./routes/expense')
 Expenses.belongsTo(User, { constraints: true, onDelete: 'CASCADE' });
 User.hasMany(Expenses);
 
+User.hasMany(Order);
+Order.belongsTo(User);
+
 app.use(bodyParser.json({ extended: false }));
 app.use(cors())
 app.use('/expense',expenseRoutes);
 app.use('/user',userRoutes);
-
+app.use('/purchase',purchaseRoutes);
 
 sequelize
 //.sync({force:true})
