@@ -1,6 +1,22 @@
+const token=localStorage.getItem('token');
+
+window.addEventListener('DOMContentLoaded', () => {
+    
+    //console.log(token);
+    axios.get("http://localhost:8000/expense",{headers:{'Authorization':token}})
+        .then((response) => {
+            for (var i = 0; i < response.data.length; i++) {
+                showNewReponseOnScreen(response.data[i])
+            }
+        })
+        .catch((err) => console.log(err));
+})
+
 
 async function saveToBackend(event) {
     event.preventDefault();
+    //const token=localStorage.getItem('token');
+    //console.log(token)
     const amount = event.target.expenseamt.value;
     const description = event.target.description.value;
     const category = event.target.category.value;
@@ -12,7 +28,8 @@ async function saveToBackend(event) {
     }
 
     try {
-        let response = await axios.post("http://localhost:8000/expense/add-expense", obj);
+        let response = await axios.post("http://localhost:8000/expense/add-expense", obj,{headers:{'Authorization':token}});
+        console.log(response)
         showNewReponseOnScreen(response.data);
 
     } catch (error) {
@@ -57,8 +74,8 @@ function editUser(responseId) {
 
 async function deleteUser(responseId) {
     try {
-        // 
-        console.log(responseId)
+        
+        //console.log(responseId)
         const url = 'http://localhost:8000/expense/delete-expense/' + responseId;
         await axios.post(url);
         removeUserFromScreen(responseId);
@@ -80,12 +97,3 @@ function removeUserFromScreen(responseId) {
 
 }
 
-window.addEventListener('DOMContentLoaded', () => {
-    axios.get("http://localhost:8000/expense")
-        .then((response) => {
-            for (var i = 0; i < response.data.length; i++) {
-                showNewReponseOnScreen(response.data[i])
-            }
-        })
-        .catch((err) => console.log(err));
-})

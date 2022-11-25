@@ -2,7 +2,15 @@ const User=require('../Models/user');
 
 const bcrypt = require('bcrypt');
 
+
+const jwt=require('jsonwebtoken');
+
 const saltRounds = 10;
+
+function generateAccessToken(id){
+    return jwt.sign({userId:id},'secretKey')
+}
+
 
 exports.postAddUser = async (req,res,next)=>{
     // console.log(req.body);
@@ -10,17 +18,24 @@ exports.postAddUser = async (req,res,next)=>{
     const emailId=req.body.emailid;
     const password=req.body.password;
     try {
-        bcrypt.hash(password, saltRounds, async function(err, hash) {
-            await User.create({ name:name,emailId:emailId,password:hash})
-            res.json({alreadyexisting:false})
-            console.log(err);
-        });
+
+        const find=await User.findAll({where:{emailId:emailId}})
+        if(find.length==0){
+            bcrypt.hash(password, saltRounds, async function(err, hash) {
+                await User.create({ name:name,emailId:emailId,password:hash})
+                res.json({alreadyexisting:false})
+                console.log(err);
+            });
+        }else{
+            res.json({alreadyexisting:true})
+        }
+      
 
         
         
     } catch (err) {
         console.log(err)
-        res.json({alreadyexisting:true})
+        
     }
     
 }
@@ -41,7 +56,7 @@ exports.postLoginUser=async (req,res,next)=>{
             bcrypt.compare(password, user[0].password, function(err, result) {
                 // result == true
                 if(result==true){
-                    res.json({success:true})
+                    res.json({success:true,token:generateAccessToken(user[0].id)})
                 }else{
                     res.json({password:"incorrect"})
                 }

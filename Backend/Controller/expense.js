@@ -1,9 +1,11 @@
 const Expense=require('../Models/expense');
+const User=require('../Models/user');
+
 
 
 
 exports.getAddExpense=((req,res,next)=>{
-    Expense.findAll()
+    req.user.getExpenses() 
     .then((val)=>{
         res.json(val);
     })
@@ -13,13 +15,20 @@ exports.getAddExpense=((req,res,next)=>{
 
 exports.postAddExpense=((req,res,next)=>{
     console.log(req.body)
+    const uid=req.user.id
+    console.log(uid);
+
     const expenseAmount=req.body.amount;
     const description=req.body.description;
     const category=req.body.category;
-
-    Expense.create({ expenseAmount:expenseAmount,description:description,category:category})
+    //const uid=2;
+    // User.findByPk(uid)
+    // .then((user)=>{
+    //    return 
+    // })
+    req.user.createExpense({ expenseAmount:expenseAmount,description:description,category:category})
     .then((result) => {
-        res.json(result.dataValues);
+        console.log(result);
     })
     .catch((err) => {
         console.log(err)
@@ -30,7 +39,6 @@ exports.postAddExpense=((req,res,next)=>{
 exports.postDeleteExpense=((req,res,next)=>{
     // console.log(req.params)
     const ExpenseId = req.params.userid;
-    //console.log(ExpenseId);
     Expense.findByPk(ExpenseId)
     .then(val => {
       return val.destroy();
