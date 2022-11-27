@@ -7,6 +7,10 @@ const jwt=require('jsonwebtoken');
 
 const saltRounds = 10;
 
+const sgMail = require('@sendgrid/mail')
+
+sgMail.setApiKey(process.env.SENDGRID_API_KEY)
+
 function generateAccessToken(id){
     return jwt.sign({userId:id},'secretKey')
 }
@@ -69,5 +73,24 @@ exports.postLoginUser=async (req,res,next)=>{
         console.log(err);
     }
     
+
+}
+
+exports.getForgotPassword=async(req,res,next)=>{
+    console.log(process.env.SENDGRID_API_KEY);
+    const msg = {
+        to: 'murtazat941@gmail.com', // Change to your recipient
+        from: 'fastfury15@gmail.com', // Change to your verified sender
+        subject: 'Sending with SendGrid is Fun',
+        text: 'and easy to do anywhere, even with Node.js',
+        html: '<strong>and easy to do anywhere, even with Node.js</strong>',
+      }
+      try {
+        const response=await sgMail.json(msg);  
+        console.log(response[0].statusCode)
+    console.log(response[0].headers)
+      } catch (error) {
+        console.log(error)
+      }
 
 }
