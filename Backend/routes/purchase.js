@@ -9,4 +9,6 @@ const router=express.Router();
 router.get('/premiumMembership',userAuthentication.authenticate,purchaseController.getPremium)
 
 router.post('/transactionstatus',userAuthentication.authenticate,purchaseController.postTransactionStatus);
+
+router.get('/getLeaderboard',purchaseController.getLeaderBoard);
 module.exports=router;

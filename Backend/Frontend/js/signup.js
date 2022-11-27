@@ -49,3 +49,7 @@ async function login(event){
         console.log(err)
     }
 }
+
+async function forgotpassword(event){
+    let response=await axios.get("http://localhost:8000/user/forgotpassword")
+}

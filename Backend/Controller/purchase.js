@@ -1,5 +1,7 @@
 const Razorpay=require('razorpay');
 const Order=require('../Models/order');
+const Expense=require('../Models/expense');
+const User = require('../Models/user');
 
 
 exports.getPremium=async (req, res) => {
@@ -45,4 +47,18 @@ exports.postTransactionStatus= (req, res ) => {
         res.status(403).json({ errpr: err, message: 'Sometghing went wrong' })
 
     }
+}
+
+exports.getLeaderBoard=async(req,res,next)=>{
+    let user=await User.findAll();
+    const dataarr=[];
+    //console.log(user);
+    for(let i=0;i<user.length;i++){
+        //console.log(user[i].id);
+        let uid=user[i].id
+        let data=await uid.getExpenses();
+        console.log(data);
+    }
+    
+    
 }
