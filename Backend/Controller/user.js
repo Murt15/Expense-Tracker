@@ -1,96 +1,148 @@
-const User=require('../Models/user');
-
+const User = require('../Models/user');
+const ForgotPassword = require('../Models/forgotpass');
 const bcrypt = require('bcrypt');
-
-
-const jwt=require('jsonwebtoken');
-
+const jwt = require('jsonwebtoken');
 const saltRounds = 10;
+const sgMail = require('@sendgrid/mail');
+const uuid = require('uuid');
 
-const sgMail = require('@sendgrid/mail')
 
-sgMail.setApiKey(process.env.SENDGRID_API_KEY)
-
-function generateAccessToken(id){
-    return jwt.sign({userId:id},'secretKey')
+function generateAccessToken(id) {
+    return jwt.sign({ userId: id }, 'secretKey')
 }
 
-exports.postAddUser = async (req,res,next)=>{
+exports.postAddUser = async (req, res, next) => {
     // console.log(req.body);
-    const name=req.body.name;
-    const emailId=req.body.emailid;
-    const password=req.body.password;
+    const name = req.body.name;
+    const emailId = req.body.emailid;
+    const password = req.body.password;
     try {
 
-        const find=await User.findAll({where:{emailId:emailId}})
-        if(find.length==0){
-            bcrypt.hash(password, saltRounds, async function(err, hash) {
-                await User.create({ name:name,emailId:emailId,password:hash})
-                res.json({alreadyexisting:false})
+        const find = await User.findAll({ where: { emailId: emailId } })
+        if (find.length == 0) {
+            bcrypt.hash(password, saltRounds, async function (err, hash) {
+                await User.create({ name: name, emailId: emailId, password: hash, isPremiumuser:false })
+                res.json({ alreadyexisting: false })
                 console.log(err);
             });
-        }else{
-            res.json({alreadyexisting:true})
+        } else {
+            res.json({ alreadyexisting: true })
         }
-      
 
-        
-        
+
+
+
     } catch (err) {
         console.log(err)
-        
+
     }
-    
+
 }
 
-exports.postLoginUser=async (req,res,next)=>{
+exports.postLoginUser = async (req, res, next) => {
     // console.log(req.body);
-    const emailId=req.body.emailid;
-    const password=req.body.password;
+    const emailId = req.body.emailid;
+    const password = req.body.password;
 
     try {
-        
-        let user= await User.findAll({where:{emailId:emailId} })
 
-         //console.log(user.length)
-         if(user.length!==0){
-            let res2=await User.findAll({where:{password:password}})
+        let user = await User.findAll({ where: { emailId: emailId } })
+
+        //console.log(user.length)
+        if (user.length !== 0) {
+            let res2 = await User.findAll({ where: { password: password } })
             //console.log(res2.length)
-            bcrypt.compare(password, user[0].password, function(err, result) {
+            bcrypt.compare(password, user[0].password, function (err, result) {
                 // result == true
-                if(result==true){
-                    res.json({success:true,token:generateAccessToken(user[0].id)})
-                }else{
-                    res.json({password:"incorrect"})
+                if (result == true) {
+                    res.json({ success: true, token: generateAccessToken(user[0].id) })
+                } else {
+                    res.json({ password: "incorrect" })
                 }
             });
-           
-         }else{
-            res.json({success:false});
-         }
-        
+
+        } else {
+            res.json({ success: false });
+        }
+
     } catch (err) {
         console.log(err);
     }
-    
+
 
 }
 
-exports.getForgotPassword=async(req,res,next)=>{
-    console.log(process.env.SENDGRID_API_KEY);
-    const msg = {
-        to: 'murtazat941@gmail.com', // Change to your recipient
-        from: 'fastfury15@gmail.com', // Change to your verified sender
-        subject: 'Sending with SendGrid is Fun',
-        text: 'and easy to do anywhere, even with Node.js',
-        html: '<strong>and easy to do anywhere, even with Node.js</strong>',
-      }
-      try {
-        const response=await sgMail.json(msg);  
-        console.log(response[0].statusCode)
-    console.log(response[0].headers)
-      } catch (error) {
-        console.log(error)
-      }
+exports.ForgotPassword = async (req, res, next) => {
+    const email = req.body.email;
 
+
+    try {
+        const user = await User.findOne({ where: { emailId:email } });
+        if (user) {
+            const id = uuid.v4();
+            console.log(user.id);
+            ForgotPassword.create({ id, active: true ,userId:user.id})
+                .catch(err => {
+                    throw new Error(err)
+                })
+            sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+            const msg = {
+                to: email, // Change to your recipient
+                from: 'fastfury15@gmail.com', // Change to your verified sender
+                subject: 'Reset Password Link',
+                text: 'Click on the link to reset your password',
+                html: `<a href="http://localhost:8000/user/resetpassword/${id}">Reset password</a>`,
+            }
+
+            const response = await sgMail.send(msg);
+            res.status(response[0].statusCode).json({ message: 'Link to reset password sent to your mail ', sucess: true })
+
+        } else {
+            throw new Error('User Does Not Exist');
+        }
+
+
+
+    } catch (error) {
+        console.log(error)
+    }
+
+}
+
+exports.resetPassword = async (req, res, next) => {
+    const id =  req.params.id;
+    const request = await ForgotPassword.findOne({where:{id}});
+    if(request){
+        request.update({active:false});
+        res.send(`<html>
+                        <form action="/user/updatepassword/${id}" method="get">
+                            <label for="newpassword">Enter New password</label>
+                            <input name="newpassword" type="password" required></input>
+                            <button>reset password</button>
+                        </form>
+                    </html>`)
+    }
+}
+
+exports.updatePassword=async (req,res,next)=>{
+    try {
+        // console.log(req.query);
+        // console.log(req.params);
+        const newPassword=req.query.newpassword;
+        const id=req.params.rid;
+        let request=await ForgotPassword.findAll({where:{id:id}});
+        console.log();
+        let user=await User.findAll({where:{id:request[0].userId}})
+
+        if (user) {
+            bcrypt.hash(newPassword, saltRounds, async function (err, hash) {
+               await User.update({password:hash},{where:{id:request[0].userId}})
+            });
+        }else{
+            return res.status(404).json({error:'No User Exist' ,success:false })
+        }
+        
+    } catch (error) {
+        console.log(error);
+    }
 }

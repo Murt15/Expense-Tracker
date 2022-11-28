@@ -51,6 +51,14 @@ async function login(event){
 }
 
 async function forgotpassword(event){
-    let response=await axios.get("http://localhost:8000/user/forgotpassword")
-    console.log(response);
+    event.preventDefault();
+    const email=event.target.emailid.value;
+    const details={email:email}
+    try {
+        let response=await axios.post("http://localhost:8000/user/forgotpassword",details);
+        console.log(response);
+    } catch (error) {
+        console.log(error)
+    }
+   
 }

@@ -100,12 +100,12 @@ function removeUserFromScreen(responseId) {
 
 document.getElementById("razorpay-btn").onclick = async function (e) {
     const response  = await axios.get('http://localhost:8000/purchase/premiumMembership', { headers: {"Authorization" : token} });
-    console.log(response);
+    //console.log(response);
     var options =
     {
-     "key": response.data.key_id, // Enter the Key ID generated from the Dashboard
+     "key": response.data.key_id, 
      "name": "Test Company",
-     "order_id": response.data.order.id, // For one time payment
+     "order_id": response.data.order.id, 
      "prefill": {
        "name": "Test User",
        "email": "test.user@example.com",

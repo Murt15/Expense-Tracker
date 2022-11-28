@@ -34,7 +34,8 @@ exports.postTransactionStatus= (req, res ) => {
         const { payment_id, order_id} = req.body;
         Order.findOne({where : {orderid : order_id}}).then(order => {
             order.update({ paymentid: payment_id, status: 'SUCCESSFUL'}).then(() => {
-                req.user.update({ispremiumuser: true})
+                req.user.update({ isPremiumuser: true})
+                console.log("done");
                 return res.status(202).json({sucess: true, message: "Transaction Successful"});
             }).catch((err)=> {
                 throw new Error(err);
@@ -44,7 +45,7 @@ exports.postTransactionStatus= (req, res ) => {
         })
     } catch (err) {
         console.log(err);
-        res.status(403).json({ errpr: err, message: 'Sometghing went wrong' })
+        res.status(403).json({ errpr: err, message: 'Something went wrong' })
 
     }
 }

@@ -8,6 +8,7 @@ const app=express();
 const User=require('./Models/user');
 const Expenses=require('./Models/expense');
 const Order=require('./Models/order')
+const ForgotPassword=require('./Models/forgotpass');
 
 const purchaseRoutes=require('./routes/purchase')
 const userRoutes=require('./routes/user');
@@ -20,6 +21,10 @@ User.hasMany(Expenses);
 
 User.hasMany(Order);
 Order.belongsTo(User);
+
+
+User.hasMany(ForgotPassword);
+ForgotPassword.belongsTo(User);
 
 app.use(bodyParser.json({ extended: false }));
 app.use(cors())
