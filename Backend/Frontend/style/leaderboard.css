@@ -10,7 +10,15 @@
 .user-heading-list button{
     border: none;
     margin-right: 10px;
+    background-color: coral;
+    border-radius: 5px;
+    position: relative;
+    left: 75%;
+    height: 25px;
 
+}
+.user-heading-item{
+    width: 30%;
 }
 .expense{
     float: right;
