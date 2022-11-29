@@ -9,16 +9,16 @@ exports.getAddExpense=((req,res,next)=>{
     //console.log(req.user);
     req.user.getExpenses() 
     .then((val)=>{
-        res.json(val);
+        res.json({val:val,isPremium:req.user.isPremiumuser});
     })
     .catch(err=>console.log(err))
 })
 
 
 exports.postAddExpense=((req,res,next)=>{
-    console.log(req.body)
-    const uid=req.user.id
-    console.log(uid);
+    //console.log(req.body)
+    //const uid=req.user.id
+    //console.log(uid);
 
     const expenseAmount=req.body.amount;
     const description=req.body.description;
@@ -30,7 +30,8 @@ exports.postAddExpense=((req,res,next)=>{
     // })
     req.user.createExpense({ expenseAmount:expenseAmount,description:description,category:category})
     .then((result) => {
-        console.log(result);
+        // console.log(result);
+        res.json(result);
     })
     .catch((err) => {
         console.log(err)

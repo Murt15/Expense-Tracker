@@ -1,3 +1,5 @@
+const url="http://localhost:8000";
+
 async function  signup(event){
     event.preventDefault();
     const name=event.target.name.value
@@ -8,7 +10,7 @@ async function  signup(event){
         name:name,emailid:emailid,password:password
     }
     try {
-        let res=await axios.post("http://localhost:8000/user/signup",signupObj);
+        let res=await axios.post(`${url}/user/signup`,signupObj);
         if(res.data.alreadyexisting==true){
             //console.log(res.data)
             window.alert("User Already Registered");
@@ -32,7 +34,7 @@ async function login(event){
     }
 
     try {
-        let res=await axios.post("http://localhost:8000/user/login",loginObj);
+        let res=await axios.post(`${url}/user/login`,loginObj);
         // console.log(res.data)
         if (res.data.success==true){
             window.localStorage.setItem('token',res.data.token)
@@ -56,7 +58,7 @@ async function forgotpassword(event){
     const email=event.target.emailid.value;
     const details={email:email}
     try {
-        let response=await axios.post("http://localhost:8000/user/forgotpassword",details);
+        let response=await axios.post(`${url}/user/forgotpassword`,details);
         console.log(response);
     } catch (error) {
         console.log(error)

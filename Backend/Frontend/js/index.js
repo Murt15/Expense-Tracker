@@ -1,14 +1,24 @@
 const token=localStorage.getItem('token');
 
+const url="http://localhost:8000";
+
 window.addEventListener('DOMContentLoaded', () => {
     
     //console.log(token);
-    axios.get("http://localhost:8000/expense",{headers:{'Authorization':token}})
+    axios.get(`${url}/expense`,{headers:{'Authorization':token}})
         .then((response) => {
-           // console.log(response);
-            for (var i = 0; i < response.data.length; i++) {
+            console.log(response);
+            for (var i = 0; i < response.data.val.length; i++) {
                 
-                showNewReponseOnScreen(response.data[i])
+                showNewReponseOnScreen(response.data.val[i]);
+                
+            }
+            if(response.data.isPremium==true){
+                
+                document.getElementById("razorpay-btn").style.display='none';
+            }else{
+                
+                button();
             }
         })
         .catch((err) => console.log(err));
@@ -30,8 +40,8 @@ async function saveToBackend(event) {
     }
 
     try {
-        let response = await axios.post("http://localhost:8000/expense/add-expense", obj,{headers:{'Authorization':token}});
-        console.log(response)
+        let response = await axios.post(`${url}/expense/add-expense`, obj,{headers:{'Authorization':token}});
+        //console.log(response)
         showNewReponseOnScreen(response.data);
 
     } catch (error) {
@@ -58,8 +68,8 @@ function showNewReponseOnScreen(response) {
 
 function editUser(responseId) {
 
-    const url = 'http://localhost:8000/expense/edit-expense/' + responseId;
-    axios.get(url)
+    const yurl = `${url}/expense/edit-expense/` + responseId;
+    axios.get(yurl)
         .then((res) => {
             // console.log(res);
             document.getElementById('amt').value = res.data.expenseAmount;
@@ -78,8 +88,10 @@ async function deleteUser(responseId) {
     try {
         
         //console.log(responseId)
-        const url = 'http://localhost:8000/expense/delete-expense/' + responseId;
-        await axios.post(url);
+
+        const yurl = `${url}/expense/delete-expense/` + responseId;
+        await axios.post(yurl);
+
         removeUserFromScreen(responseId);
 
 
@@ -91,17 +103,24 @@ async function deleteUser(responseId) {
 }
 
 function removeUserFromScreen(responseId) {
+
     const parentNode = document.getElementById("allExpenses");
+
     const childNodeToBeDeleted = document.getElementById(responseId);
+
     if (childNodeToBeDeleted) {
         parentNode.removeChild(childNodeToBeDeleted)
     }
 
 }
 
-
+function button(){
+    document.getElementById("dark-mode").style.display='none';
+    document.getElementById("leader-board").style.display='none';
+    document.getElementById("gen-report").style.display='none';
+}
 document.getElementById("razorpay-btn").onclick = async function (e) {
-    const response  = await axios.get('http://localhost:8000/purchase/premiumMembership', { headers: {"Authorization" : token} });
+    const response  = await axios.get(`${url}/purchase/premiumMembership`, { headers: {"Authorization" : token} });
     //console.log(response);
     var options =
     {
@@ -119,7 +138,7 @@ document.getElementById("razorpay-btn").onclick = async function (e) {
    
      "handler": function (response) {
          console.log(response);
-         axios.post('http://localhost:8000/purchase/transactionstatus',{
+         axios.post('${url}/purchase/transactionstatus',{
              order_id: options.order_id,
              payment_id: response.razorpay_payment_id,
          }, { headers: {"Authorization" : token} }).then(() => {
@@ -158,11 +177,6 @@ document.getElementById("gen-report").onclick=()=>{
     window.location.href='../views/report.html'
 }
 
-
-// const darkmode=document.getElementById("dark-mode");
-
-
-// darkmode.addEventListener('click', (e) => {
-//     document.body.classList.toggle("dark");
-// });
-
+document.getElementById("dark-mode").onclick=()=>{
+    document.body.classList.toggle("dark");
+}

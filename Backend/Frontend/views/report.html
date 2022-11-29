@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Expense Tracker</title>
     <link rel="stylesheet" href="../style/main.css">
+    <link rel="stylesheet" href="../style/report.css">
 
 </head>
 <div class="bg">
@@ -16,10 +17,24 @@
     <body class="body"><br><br><br><br>
         
         <h1>Report</h1>
+        <div class="report-list" id="report">
+            <ul class="list-heading">
+                <li class="heading_item">Time</li>
+                <li class="heading_item">Description</li>
+                <li class="heading_item">Category</li>
+                <li class="heading_item"> Amount</li>
+            </ul>
+            
+           
+        </div>
+        <button class="download" id="down-report">Download Report</button>
 
 
+
+
+       
         <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.0.0/axios.min.js"></script>
-        <script src="../js/signup.js"></script>
+        <script src="../js/report.js"></script>
         
 
     </body>

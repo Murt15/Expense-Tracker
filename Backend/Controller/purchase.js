@@ -52,14 +52,26 @@ exports.postTransactionStatus= (req, res ) => {
 
 exports.getLeaderBoard=async(req,res,next)=>{
     let user=await User.findAll();
-    const dataarr=[];
+
+    res.json(user);
+    // const dataarr=[];
+    // //console.log(user);
+    // for(let i=0;i<user.length;i++){
+    //     //console.log(user[i].id);
+    //     let uid=user[i].id
+    //     let data=await uid.getExpenses();
+    //     console.log(data);
+    // }
+    
+    
+}
+
+exports.getExpense=async(req,res,next)=>{
+    //console.log(req.body.id);
+    id=req.body.id;
+
+    const user=await User.findOne({where:{id:id}})
     //console.log(user);
-    for(let i=0;i<user.length;i++){
-        //console.log(user[i].id);
-        let uid=user[i].id
-        let data=await uid.getExpenses();
-        console.log(data);
-    }
-    
-    
+    const expenses= await user.getExpenses();
+    res.json(expenses)
 }

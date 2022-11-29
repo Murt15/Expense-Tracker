@@ -3,6 +3,8 @@ const bodyParser=require('body-parser');
 const cors=require('cors');
 const sequelize=require('./utils/database');
 
+const path = require('path');
+
 const app=express();
 
 const User=require('./Models/user');
@@ -28,6 +30,10 @@ ForgotPassword.belongsTo(User);
 
 app.use(bodyParser.json({ extended: false }));
 app.use(cors())
+// app.use('/',(req,res)=>{
+//     res.sendFile(path.join(__dirname,`Frontend/${req.url}`))
+// })
+
 app.use('/expense',expenseRoutes);
 app.use('/user',userRoutes);
 app.use('/purchase',purchaseRoutes);
@@ -40,7 +46,6 @@ sequelize
 }).catch((err) => {
     console.log(err)
 });
-
 
 
 

@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Expense Tracker</title>
     <link rel="stylesheet" href="../style/main.css">
+    <link rel="stylesheet" href="../style/leaderboard.css">
 
 </head>
 <div class="bg">
@@ -15,11 +16,24 @@
 
     <body class="body"><br><br><br><br>
         <h1>LeaderBoard</h1>
+        <div class="user-list" id="user_list">
+            
 
+        </div>
+
+
+
+        <div class="popup-container" id="container">
+            <div class="popup">
+                <button id="close">&times;</button>
+                
+                <div id="main-expense"></div>                
+            </div>
+        </div>
 
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.0.0/axios.min.js"></script>
-        <script src="../js/signup.js"></script>
+        <script src="../js/leaderboard.js"></script>
         
 
     </body>

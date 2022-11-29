@@ -11,4 +11,6 @@ router.get('/premiumMembership',userAuthentication.authenticate,purchaseControll
 router.post('/transactionstatus',userAuthentication.authenticate,purchaseController.postTransactionStatus);
 
 router.get('/getLeaderboard',purchaseController.getLeaderBoard);
+
+router.post('/expense',purchaseController.getExpense);
 module.exports=router;
