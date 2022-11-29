@@ -5,7 +5,9 @@ window.addEventListener('DOMContentLoaded', () => {
     //console.log(token);
     axios.get("http://localhost:8000/expense",{headers:{'Authorization':token}})
         .then((response) => {
+           // console.log(response);
             for (var i = 0; i < response.data.length; i++) {
+                
                 showNewReponseOnScreen(response.data[i])
             }
         })
@@ -141,3 +143,26 @@ document.getElementById("razorpay-btn").onclick = async function (e) {
   alert(response.error.metadata.payment_id);
  });
 }
+
+
+document.getElementById("logout").onclick= ()=>{
+    window.location.href='../views/login.html'
+    localStorage.removeItem('token');
+}
+
+document.getElementById("leader-board").onclick=()=>{
+    window.location.href='../views/leaderboard.html'
+}
+
+document.getElementById("gen-report").onclick=()=>{
+    window.location.href='../views/report.html'
+}
+
+
+// const darkmode=document.getElementById("dark-mode");
+
+
+// darkmode.addEventListener('click', (e) => {
+//     document.body.classList.toggle("dark");
+// });
+

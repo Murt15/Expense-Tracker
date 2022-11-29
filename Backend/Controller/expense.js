@@ -6,6 +6,7 @@ const User=require('../Models/user');
 
 
 exports.getAddExpense=((req,res,next)=>{
+    //console.log(req.user);
     req.user.getExpenses() 
     .then((val)=>{
         res.json(val);
