@@ -1,16 +1,25 @@
 const token=localStorage.getItem('token');
 const url="http://localhost:8000";
-
-
+var number;
 window.addEventListener('DOMContentLoaded', ()=>{
     let page=1;
-    getExpense(page);
+    number =10;
+    getExpense(page,number);
+
 })
 
 
-async function getExpense(page){
+document.getElementById("no-of-items").onchange=()=>{
+     number=document.getElementById("no-of-items").value;
+     let page=1;
+     getExpense(page,number);
+
+}
+
+
+async function getExpense(page,number){
     try {
-        const response= await axios.get(`${url}/purchase/all-expense?page=${page}`,{headers:{'Authorization':token}});
+        const response= await axios.get(`${url}/purchase/all-expense/${number}?page=${page}`,{headers:{'Authorization':token}});
         //console.log(response.data);
         var totalAmount=0;
         for (var i = 0; i < response.data.val.length; i++) {
@@ -58,7 +67,7 @@ function showPagination(currentPage,hasNextPage,hasPreviousPage,lastPage,nextPag
         const button2 = document.createElement('button');
         button2.classList.add('active');
         button2.innerHTML = previousPage;
-        button2.addEventListener('click', ()=>getExpense(previousPage));
+        button2.addEventListener('click', ()=>getExpense(previousPage,number));
         pagination.appendChild(button2);
 
     }
@@ -69,14 +78,14 @@ function showPagination(currentPage,hasNextPage,hasPreviousPage,lastPage,nextPag
     button1.classList.add('active');
     button1.innerHTML = `<h3>${currentPage}<h3>`;
     
-    button1.addEventListener('click', ()=>getExpense(currentPage))
+    button1.addEventListener('click', ()=>getExpense(currentPage,number))
     pagination.appendChild(button1);
 
     if(hasNextPage){
         const button3 = document.createElement('button');
         button3.classList.add('active');
         button3.innerHTML = nextPage;
-        button3.addEventListener('click',()=>getExpense(nextPage))
+        button3.addEventListener('click',()=>getExpense(nextPage,number))
         pagination.appendChild(button3);
     }
   

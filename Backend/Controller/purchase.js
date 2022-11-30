@@ -3,7 +3,7 @@ const Order=require('../Models/order');
 const Expense=require('../Models/expense');
 const User = require('../Models/user');
 
-const ITEMS_Per_Page=10;
+
 
 exports.getPremium=async (req, res) => {
     try {
@@ -78,10 +78,13 @@ exports.getExpense=async(req,res,next)=>{
 }
 
 exports.getAllexpense=async(req,res,next)=>{
+    const ITEMS_Per_Page=req.params.items;
+    console.log(ITEMS_Per_Page);
     try {
+       
         const page=+req.query.page ||1;
-    const totalItems =await req.user.countExpenses();
-    const val= await req.user.getExpenses({
+        const totalItems =await req.user.countExpenses();
+        const val= await req.user.getExpenses({
         offset: (page - 1) * ITEMS_Per_Page ,
         limit: ITEMS_Per_Page
     })

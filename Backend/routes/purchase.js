@@ -14,7 +14,7 @@ router.get('/getLeaderboard',purchaseController.getLeaderBoard);
 
 router.post('/expense',purchaseController.getExpense);
 
-router.get('/all-expense',userAuthentication.authenticate,purchaseController.getAllexpense)
+router.get('/all-expense/:items',userAuthentication.authenticate,purchaseController.getAllexpense)
 
 
 module.exports=router;

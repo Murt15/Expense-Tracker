@@ -27,11 +27,13 @@
             
            
         </div>
-        <div id="pagination" class="pagination"></div>
+        
         <button class="download" id="down-report">Download Report</button>
-
-
-
+        <div class="dynamic">
+            <label for="dyn-pagination">Rows per Page</label>
+            <input type="number" id="no-of-items" value="10">
+            <div id="pagination" class="pagination"></div>
+        </div>
 
        
         <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.0.0/axios.min.js"></script>
