@@ -13,4 +13,8 @@ router.post('/transactionstatus',userAuthentication.authenticate,purchaseControl
 router.get('/getLeaderboard',purchaseController.getLeaderBoard);
 
 router.post('/expense',purchaseController.getExpense);
+
+router.get('/all-expense',userAuthentication.authenticate,purchaseController.getAllexpense)
+
+
 module.exports=router;

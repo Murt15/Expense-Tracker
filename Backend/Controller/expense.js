@@ -1,15 +1,33 @@
 const Expense=require('../Models/expense');
 const User=require('../Models/user');
 
-
+const ITEMS_Per_Page=3;
 
 
 
 exports.getAddExpense=((req,res,next)=>{
+    const page=+req.query.page ||1;
     //console.log(req.user);
-    req.user.getExpenses() 
+    var totalItems;
+    req.user.countExpenses().
+    then((num)=>{
+        totalItems=num;
+        return   req.user.getExpenses({
+            offset: (page - 1) * ITEMS_Per_Page ,
+            limit: ITEMS_Per_Page
+        }) 
+    })
     .then((val)=>{
-        res.json({val:val,isPremium:req.user.isPremiumuser});
+        res.json({
+            val:val,
+            isPremium:req.user.isPremiumuser,
+            currentPage: page,
+            hasNextPage: totalItems > page * ITEMS_Per_Page,
+            hasPreviousPage: page > 1,
+            nextPage: +page + 1,
+            previousPage: +page - 1,
+            lastPage: Math.ceil(totalItems / ITEMS_Per_Page)
+        });
     })
     .catch(err=>console.log(err))
 })

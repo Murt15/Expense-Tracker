@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-    
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -11,17 +11,18 @@
 
 </head>
 <div class="bg">
-    <button id="logout" class="logout"><img src="https://cdn-icons-png.flaticon.com/512/3580/3580154.png" alt="Logout"></button>
-    
+    <button id="logout" class="logout"><img src="https://cdn-icons-png.flaticon.com/512/3580/3580154.png"
+            alt="Logout"></button>
+
     <body class="body">
         <button id="razorpay-btn" class="premium"> Buy Premium</button>
         <button class="darkbtn" id="dark-mode">Dark Mode</button>
         <button class="leader" id="leader-board">LeaderBoard</button>
         <button class="report" id="gen-report">Generate Report</button>
         <br><br><br><br><br><br><br><br>
-        <h1>Expense  Tracker </h1>
-        
-        
+        <h1>Expense Tracker </h1>
+
+
         <div>
             <fieldset>
 
@@ -32,16 +33,19 @@
                     <input class="input1" type="text" id="des" name="description" required><br>
                     <label for="cat" class="heading">Choose a Category</label><br>
                     <select class="input2" id="cat" name="category"><br>
-                        <option value="fuel">Fuel</option>
-                        <option value="food">Food</option>
-                        <option value="electricity">Electricity</option>
+                        <option value="Fuel">Fuel</option>
+                        <option value="Food">Food</option>
+                        <option value="Electricity">Electricity</option>
                         <option value="Misc">Miscellanous</option>
-                        <option value="rent">Rent</option>
+                        <option value="Rent">Rent</option>
 
                     </select><br>
                     <button class="btn"> Add Expense </button>
                 </form>
-                <ul id="allExpenses" class="list1"></ul>
+                <div class="expense">
+                    <ul id="allExpenses" class="list1"></ul>
+                    <div id="pagination" class="pagination"></div>
+                </div>
             </fieldset>
         </div>
 
@@ -49,7 +53,7 @@
         <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.0.0/axios.min.js"></script>
         <script src="../js/index.js"></script>
-        
+
 
     </body>
 </div>

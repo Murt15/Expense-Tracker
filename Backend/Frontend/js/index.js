@@ -2,28 +2,37 @@ const token=localStorage.getItem('token');
 
 const url="http://localhost:8000";
 
+const pagination=document.getElementById("pagination");
+
+const parentNode = document.getElementById("allExpenses");
+
 window.addEventListener('DOMContentLoaded', () => {
-    
-    //console.log(token);
-    axios.get(`${url}/expense`,{headers:{'Authorization':token}})
-        .then((response) => {
-            console.log(response);
-            for (var i = 0; i < response.data.val.length; i++) {
-                
-                showNewReponseOnScreen(response.data.val[i]);
-                
-            }
-            if(response.data.isPremium==true){
-                
-                document.getElementById("razorpay-btn").style.display='none';
-            }else{
-                
-                button();
-            }
-        })
-        .catch((err) => console.log(err));
+    let page=1;
+   getExpense(page);
 })
 
+async function getExpense(page){
+    try {
+        const response=await axios.get(`${url}/expense?page=${page}`,{headers:{'Authorization':token}});
+        console.log(response);
+        parentNode.innerHTML="";
+        for (var i = 0; i < response.data.val.length; i++) {
+            
+            showNewReponseOnScreen(response.data.val[i]);
+            
+        }
+        showPagination(response.data.currentPage,response.data.hasNextPage,response.data.hasPreviousPage,response.data.lastPage,response.data.nextPage,response.data.previousPage)
+        if(response.data.isPremium==true){
+            
+            document.getElementById("razorpay-btn").style.display='none';
+        }else{
+            
+            button();
+        }
+    } catch (err) {
+        console.log(err);
+    }
+}
 
 async function saveToBackend(event) {
     event.preventDefault();
@@ -54,7 +63,7 @@ function showNewReponseOnScreen(response) {
     document.getElementById('des').value = '';
     document.getElementById("cat").value = " ";
 
-    const parentNode = document.getElementById("allExpenses");
+    
 
     const childHTML = `<li id=${response.id} class="list">${response.expenseAmount}--${response.description}--${response.category}
                     <button onClick=deleteUser("${response.id}") class="bttd">Delete</button>
@@ -104,7 +113,7 @@ async function deleteUser(responseId) {
 
 function removeUserFromScreen(responseId) {
 
-    const parentNode = document.getElementById("allExpenses");
+    //const parentNode = document.getElementById("allExpenses");
 
     const childNodeToBeDeleted = document.getElementById(responseId);
 
@@ -119,6 +128,39 @@ function button(){
     document.getElementById("leader-board").style.display='none';
     document.getElementById("gen-report").style.display='none';
 }
+
+function showPagination(currentPage,hasNextPage,hasPreviousPage,lastPage,nextPage,previousPage){
+    pagination.innerHTML='';
+
+    if(hasPreviousPage){
+        const button2 = document.createElement('button');
+        button2.classList.add('active');
+        button2.innerHTML = previousPage;
+        button2.addEventListener('click', ()=>getExpense(previousPage));
+        pagination.appendChild(button2);
+
+    }
+
+
+
+    const button1 = document.createElement('button');
+    button1.classList.add('active');
+    button1.innerHTML = `<h3>${currentPage}<h3>`;
+    
+    button1.addEventListener('click', ()=>getExpense(currentPage))
+    pagination.appendChild(button1);
+
+    if(hasNextPage){
+        const button3 = document.createElement('button');
+        button3.classList.add('active');
+        button3.innerHTML = nextPage;
+        button3.addEventListener('click',()=>getExpense(nextPage))
+        pagination.appendChild(button3);
+    }
+  
+}
+
+
 document.getElementById("razorpay-btn").onclick = async function (e) {
     const response  = await axios.get(`${url}/purchase/premiumMembership`, { headers: {"Authorization" : token} });
     //console.log(response);

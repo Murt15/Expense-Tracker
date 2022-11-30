@@ -3,6 +3,7 @@ const Order=require('../Models/order');
 const Expense=require('../Models/expense');
 const User = require('../Models/user');
 
+const ITEMS_Per_Page=10;
 
 exports.getPremium=async (req, res) => {
     try {
@@ -74,4 +75,29 @@ exports.getExpense=async(req,res,next)=>{
     //console.log(user);
     const expenses= await user.getExpenses();
     res.json(expenses)
+}
+
+exports.getAllexpense=async(req,res,next)=>{
+    try {
+        const page=+req.query.page ||1;
+    const totalItems =await req.user.countExpenses();
+    const val= await req.user.getExpenses({
+        offset: (page - 1) * ITEMS_Per_Page ,
+        limit: ITEMS_Per_Page
+    })
+        res.json({
+            val:val,
+            isPremium:req.user.isPremiumuser,
+            currentPage: page,
+            hasNextPage: totalItems > page * ITEMS_Per_Page,
+            hasPreviousPage: page > 1,
+            nextPage: +page + 1,
+            previousPage: +page - 1,
+            lastPage: Math.ceil(totalItems / ITEMS_Per_Page)
+        });
+        
+    } catch (err) {
+        console.log(err);
+    }
+    
 }
