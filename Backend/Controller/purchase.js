@@ -78,8 +78,9 @@ exports.getExpense=async(req,res,next)=>{
 }
 
 exports.getAllexpense=async(req,res,next)=>{
-    const ITEMS_Per_Page=req.params.items;
-    console.log(ITEMS_Per_Page);
+    const items=req.params.items;
+    const ITEMS_Per_Page =parseInt(items);
+    // console.log(ITEMS_Per_Page);
     try {
        
         const page=+req.query.page ||1;

@@ -8,7 +8,7 @@ const uuid = require('uuid');
 
 
 function generateAccessToken(id) {
-    return jwt.sign({ userId: id }, 'secretKey')
+    return jwt.sign({ userId: id }, process.env.SECRET)
 }
 
 exports.postAddUser = async (req, res, next) => {

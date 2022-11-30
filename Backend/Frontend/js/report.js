@@ -1,4 +1,9 @@
 const token=localStorage.getItem('token');
+
+const parentNode=document.getElementById("report-expenses");
+
+const tparentNode=document.getElementById("report-total");
+
 const url="http://localhost:8000";
 var number;
 window.addEventListener('DOMContentLoaded', ()=>{
@@ -12,15 +17,18 @@ window.addEventListener('DOMContentLoaded', ()=>{
 document.getElementById("no-of-items").onchange=()=>{
      number=document.getElementById("no-of-items").value;
      let page=1;
+     parentNode.innerHTML='';
+     tparentNode.innerHTML='';
      getExpense(page,number);
 
 }
 
 
 async function getExpense(page,number){
+    //
     try {
         const response= await axios.get(`${url}/purchase/all-expense/${number}?page=${page}`,{headers:{'Authorization':token}});
-        //console.log(response.data);
+        console.log(response.data);
         var totalAmount=0;
         for (var i = 0; i < response.data.val.length; i++) {
             //console.log("1");
@@ -40,7 +48,7 @@ function showExpense(data){
     const arr=data.createdAt.split('T');
     // console.log(data.createdAt);
     // console.log(arr);
-    const parentNode=document.getElementById("report");
+   
     var childHTML=`<ul class="list-heading" id=${data.id}>
                         <li class="expense-item">${arr[0]}</li>
                         <li class="expense-item">${data.description}</li>
@@ -53,10 +61,10 @@ function showExpense(data){
 }
 
 function showtotal(total){
-    const parentNode=document.getElementById("report");
+   
     var childHTML=`<h2>Total Expense : ${total}</h2>`;
 
-    parentNode.innerHTML=parentNode.innerHTML+childHTML;
+    tparentNode.innerHTML=tparentNode.innerHTML+childHTML;
 }
 
 

@@ -2,6 +2,9 @@ const express=require('express');
 const bodyParser=require('body-parser');
 const cors=require('cors');
 const sequelize=require('./utils/database');
+const helmet = require("helmet");
+const morgan=require('morgan');
+const fs=require('fs');
 
 const path = require('path');
 
@@ -16,6 +19,8 @@ const purchaseRoutes=require('./routes/purchase')
 const userRoutes=require('./routes/user');
 const expenseRoutes=require('./routes/expense')
 
+const logStream=fs.createWriteStream(path.join(__dirname,'acess.log'),{flags:'a'})
+
 //Relations
 //One to Many
 Expenses.belongsTo(User, { constraints: true, onDelete: 'CASCADE' });
@@ -29,7 +34,9 @@ User.hasMany(ForgotPassword);
 ForgotPassword.belongsTo(User);
 
 app.use(bodyParser.json({ extended: false }));
-app.use(cors())
+app.use(cors());
+app.use(helmet());
+app.use(morgan('combined',{stream:logStream}));
 // app.use('/',(req,res)=>{
 //     res.sendFile(path.join(__dirname,`Frontend/${req.url}`))
 // })
@@ -42,7 +49,7 @@ sequelize
 //.sync({force:true})
 .sync()
 .then((result) => {
-    app.listen(8000);
+    app.listen(process.env.PORT);
 }).catch((err) => {
     console.log(err)
 });
