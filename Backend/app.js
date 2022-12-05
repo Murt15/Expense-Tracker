@@ -20,7 +20,7 @@ const userRoutes=require('./routes/user');
 const expenseRoutes=require('./routes/expense')
 
 const logStream=fs.createWriteStream(path.join(__dirname,'acess.log'),{flags:'a'})
-
+app.use(cors());
 //Relations
 //One to Many
 Expenses.belongsTo(User, { constraints: true, onDelete: 'CASCADE' });
@@ -34,10 +34,11 @@ User.hasMany(ForgotPassword);
 ForgotPassword.belongsTo(User);
 
 app.use(bodyParser.json({ extended: false }));
-app.use(cors());
+
 app.use(helmet());
 app.use(morgan('combined',{stream:logStream}));
-// app.use('/',(req,res)=>{
+
+// app.use((req,res)=>{
 //     res.sendFile(path.join(__dirname,`Frontend/${req.url}`))
 // })
 

@@ -14,7 +14,7 @@ window.addEventListener('DOMContentLoaded', () => {
 async function getExpense(page){
     try {
         const response=await axios.get(`${url}/expense?page=${page}`,{headers:{'Authorization':token}});
-        console.log(response);
+        //console.log(response);
         parentNode.innerHTML="";
         for (var i = 0; i < response.data.val.length; i++) {
             
@@ -180,12 +180,14 @@ document.getElementById("razorpay-btn").onclick = async function (e) {
    
      "handler": function (response) {
          console.log(response);
-         axios.post('${url}/purchase/transactionstatus',{
+         axios.post(`${url}/purchase/transactionstatus`,{
              order_id: options.order_id,
              payment_id: response.razorpay_payment_id,
          }, { headers: {"Authorization" : token} }).then(() => {
              alert('You are a Premium User Now')
-         }).catch(() => {
+             window.location.href='../views/index.html';
+         }).catch((err) => {
+            console.log(err);
              alert('Something went wrong. Try Again!!!')
          })
      },

@@ -6,31 +6,32 @@ const User = require('../Models/user');
 
 
 exports.getPremium=async (req, res) => {
+    //console.log( process.env.RAZORPAY_KEY_ID,process.env.RAZORPAY_KEY_SECRET);
     try {
         var rzp = new Razorpay({
             key_id: process.env.RAZORPAY_KEY_ID,
             key_secret: process.env.RAZORPAY_KEY_SECRET
         })
-        const amount = 2500;
+        const amount = 25000;
 
         rzp.orders.create({amount, currency: "INR"}, (err, order) => {
             if(err) {
-                throw new Error(err);
+                console.log(err);
             }
             req.user.createOrder({ orderid: order.id, status: 'PENDING'}).then(() => {
-                return res.status(201).json({ order, key_id : rzp.key_id});
+                return res.status(201).json({ order, key_id : process.env.RAZORPAY_KEY_ID});
 
             }).catch(err => {
-                throw new Error(err)
+                console.log(err);
             })
         })
     } catch(err){
         console.log(err);
-        res.status(403).json({ message: 'Sometghing went wrong', error: err})
+        res.status(403).json({ message: 'Something went wrong', error: err})
     }
 }
 
-exports.postTransactionStatus= (req, res ) => {
+exports.postTransactionStatus= async (req, res ) => {
     try {
         const { payment_id, order_id} = req.body;
         Order.findOne({where : {orderid : order_id}}).then(order => {
@@ -39,14 +40,18 @@ exports.postTransactionStatus= (req, res ) => {
                 console.log("done");
                 return res.status(202).json({sucess: true, message: "Transaction Successful"});
             }).catch((err)=> {
+                console.log('hii123')
                 throw new Error(err);
+                
             })
         }).catch(err => {
+            console.log('hii1234')
             throw new Error(err);
         })
     } catch (err) {
         console.log(err);
-        res.status(403).json({ errpr: err, message: 'Something went wrong' })
+        console.log('hii12345')
+        res.status(403).json({ error: err, message: 'Something went wrong' })
 
     }
 }
