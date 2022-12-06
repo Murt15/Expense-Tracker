@@ -40,17 +40,17 @@ exports.postTransactionStatus= async (req, res ) => {
                 console.log("done");
                 return res.status(202).json({sucess: true, message: "Transaction Successful"});
             }).catch((err)=> {
-                console.log('hii123')
+               // console.log('hii123')
                 throw new Error(err);
                 
             })
         }).catch(err => {
-            console.log('hii1234')
+            //console.log('hii1234')
             throw new Error(err);
         })
     } catch (err) {
         console.log(err);
-        console.log('hii12345')
+        //console.log('hii12345')
         res.status(403).json({ error: err, message: 'Something went wrong' })
 
     }

@@ -2,6 +2,7 @@ const token=localStorage.getItem('token');
 
 const url="http://localhost:8000";
 
+
 const pagination=document.getElementById("pagination");
 
 const parentNode = document.getElementById("allExpenses");

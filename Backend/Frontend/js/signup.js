@@ -1,5 +1,7 @@
 const url="http://localhost:8000";
 
+
+
 async function  signup(event){
     event.preventDefault();
     const name=event.target.name.value
