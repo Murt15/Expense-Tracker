@@ -18,7 +18,7 @@ const SignUpInput = () => {
         `http://localhost:8000/user/signup`,
         signupObj
       );
-      if (res.data.alreadyexisting == true) {
+      if (res.data.alreadyexisting === true) {
         //console.log(res.data)
         // window.alert("User Already Registered");
       } else {

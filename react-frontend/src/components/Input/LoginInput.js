@@ -15,10 +15,10 @@ const LoginInput = () => {
     try {
       let res = await axios.post(`http://localhost:8000/user/login`, loginObj);
       // console.log(res)
-      if (res.data.success == true) {
+      if (res.data.success === true) {
         window.localStorage.setItem("token", res.data.token);
         navigate("/home");
-      } else if (res.data.password == "incorrect") {
+      } else if (res.data.password === "incorrect") {
         // window.alert("Password is Incorrect")
       } else {
         // window.alert("User Not Registered")
