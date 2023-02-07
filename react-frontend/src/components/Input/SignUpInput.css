@@ -1,0 +1,72 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  background-color: white;
+}
+.form-div {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  width: 40%;
+  height: auto;
+}
+
+.login-form {
+  margin: 20px;
+  width: 100%;
+  border: 3px solid rgb(188, 55, 82);
+  border-radius: 40px;
+  height: 100%;
+  padding: 30px;
+  animation: moveInTop 0.5s ease-out;
+  background-color: #fff;
+}
+.form-input {
+  text-align: center;
+  margin: 12px;
+  width: 80%;
+  height: 40px;
+  border-radius: 8px;
+  font-size: 110%;
+}
+.form-input:focus {
+  background-color: rgb(233, 193, 187);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+.form-button {
+  margin: 20px;
+  width: 82%;
+  height: 40px;
+  border-radius: 10px;
+  background-color: chocolate;
+  font-size: 110%;
+}
+.form-button:hover {
+  /* transform: scale(1.1); */
+  transition: 0.3s ease-out;
+  box-shadow: 0 25px 30px rgba(0, 0, 0, 0.2);
+}
+
+@keyframes moveInTop {
+  0% {
+    opacity: 0;
+    transform: translateY(60px);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0);
+  }
+}
+.form-link,
+.form-link:visited {
+  font-size: 120%;
+  color: black;
+}
+.form-link:hover {
+  color: rebeccapurple;
+}
